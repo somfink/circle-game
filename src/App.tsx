@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { MouseEventHandler, useEffect, useState } from 'react';
+import './App.scss';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [mousePos, setMousePos] = useState<{ x: number; y: number }>();
+    const [circlePos, setCirclePos] = useState({
+        top: 50,
+        left: 50,
+    });
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    // circle size is calculated as 8rem * 12px, cause 1rem = 12px
+    let circleSize = 8 * 12;
+
+    const mouseMoveHandler = (e: MouseEvent) => {
+        setMousePos({ x: e.clientX, y: e.clientY });
+
+        setCirclePos({
+            top: e.clientY - (circleSize / 2) ,
+            left: e.clientX - (circleSize / 2),
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener('mousemove', mouseMoveHandler);
+
+        return () => {
+            window.removeEventListener('mousemove', mouseMoveHandler);
+        };
+    }, [mousePos]);
+
+    return (
+        <main className="main-container">
+            <div
+                className="main-circle"
+                style={{
+                    top: `${circlePos.top}px`,
+                    left: `${circlePos.left}px`,
+                }}
+            ></div>
+        </main>
+    );
 }
 
-export default App
+export default App;
