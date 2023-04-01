@@ -3,14 +3,12 @@
       position: relative;
       width: 100%;
       height: 100vh;
+      cursor: none;
     }
 
-    &-circle {
+    &-enemy {
       position: absolute;
       border-radius: 50%;
-      width: 10rem;
-      height: 10rem;
-      background: #000;
-      cursor: none;
+      background: #a57777;
     }
 }
